@@ -2,8 +2,6 @@
 
 namespace MyMicroBlog\Framework;
 
-use Error;
-
 abstract class BaseApiController
 {
     protected string $reqMethod = '';

@@ -25,7 +25,7 @@ abstract class BaseController
 
         // execute hook 'beforeDispatch'
         if (method_exists($this, 'beforeDispatch')) {
-            $this->beforeDispatch();
+            $this->{'beforeDispatch'}();
         }
 
         // execute 'hook' canAccessDispatch
@@ -36,7 +36,7 @@ abstract class BaseController
 
         // execute hook 'afterDispatch'
         if (method_exists($this, 'afterDispatch')) {
-            $this->afterDispatch();
+            $this->{'afterDispatch'}();
         }
     }
 
@@ -49,10 +49,8 @@ abstract class BaseController
             $this->{$actionFunctionName}();
         } // If no action matches $action might be from another controller or empty
         else if (method_exists($this, 'defaultAction')) {
-            $this->defaultAction();
+            $this->{'defaultAction'}();
         }
-        // DO Nothing
-        // echo "Error: '$actionFunctionName' for $this->action does not exist in " . get_class($this);
     }
 
     /**

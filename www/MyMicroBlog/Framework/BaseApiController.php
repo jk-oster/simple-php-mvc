@@ -31,7 +31,7 @@ class BaseApiController
 
         // execute hook 'beforeDispatch'
         if (method_exists($this, 'beforeDispatch')) {
-            $this->beforeDispatch();
+            $this->{'beforeDispatch'}();
         }
 
         // execute 'hook' canAccessDispatch
@@ -42,7 +42,7 @@ class BaseApiController
 
         // execute hook 'afterDispatch'
         if (method_exists($this, 'afterDispatch')) {
-            $this->afterDispatch();
+            $this->{'afterDispatch'}();
         }
     }
 

@@ -42,7 +42,7 @@ class MyMicoBlogController extends BaseController
     protected function afterDispatch(): void
     {
         $entries = $this->entryRepository->getEntriesSorted();
-        echo _template('Entries', ['entries' => $entries]);
+        echo _template('EntriesList', ['entries' => $entries]);
     }
 
     protected function editAction(): void

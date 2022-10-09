@@ -71,7 +71,7 @@ class BaseApiController
      * Initialize controller variables here
      * @return void
      */
-    protected function initialize(): void
+    public function initialize(): void
     {
     }
 

@@ -2,8 +2,6 @@
 
 namespace MyMicroBlog\Framework;
 
-use Error;
-
 class ApiRouter
 {
     protected array $uriSegments = [];
@@ -14,17 +12,16 @@ class ApiRouter
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $this->uriSegments = explode('/', $uri);
 
-        try {
-            if (isset($this->uriSegments[2])) {
-                $controllerName = 'MyMicroBlog\\API\\' . ucfirst($this->uriSegments[2]) . 'ApiController';
-                $this->controller = new $controllerName();
+        if (isset($this->uriSegments[2])) {
+            $currentRoute = $this->uriSegments[2];
+
+            if (array_key_exists($currentRoute, $routes)) {
+                $this->controller = new $routes[$currentRoute]['controller']();
+            } else {
+                _sendResponse(404, ['error' => 'route not found', 'routes' => $routes]);
             }
-            else {
-                
-            }
-        }
-        catch (Error $e) {
-            _sendResponse(404);
+        } else {
+            _sendResponse(200, ['routes' => $routes]);
         }
     }
 }

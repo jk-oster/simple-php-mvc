@@ -1,5 +1,6 @@
 <?php
 
+use MyMicroBlog\Framework\BaseDomain;
 use MyMicroBlog\Model\Domain\User;
 use MyMicroBlog\Framework\DataBase;
 
@@ -177,7 +178,7 @@ function _sendResponse(int $statusCode = 200, mixed $data = null, array $additio
 
     // Hook to add http headers
     if (function_exists('add_http_header')) {
-        add_http_header();
+        call_user_func('add_http_header');
     }
 
     header(HTTP_STATUS_CODE_MAPPING[$statusCode]);

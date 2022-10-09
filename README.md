@@ -28,5 +28,13 @@ Automatically retrieves all fields & keys of domain in database by naming conven
 
 ### Abstract Action Controller.
 - Takes request, evaluates which corresponding action should be called
-- Calls matched action
 - Checks access permission for action before executing
+- Calls matched action
+
+### API Router
+- Evaluates requested route and initializes corresponding ApiController
+
+### Base Api Controller
+- Takes request and evaluates corresponding endpoint
+- Checks access permissions for endpoint before executing
+- Calls endpoint

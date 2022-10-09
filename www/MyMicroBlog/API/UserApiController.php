@@ -19,8 +19,8 @@ class UserApiController extends BaseApiController
      */
     protected function baseRoute(): void
     {
-        $GET = function (UserApiController $controller) {
-            return $controller->userRepository->selectAll();
+        $GET = function (UserApiController $c) {
+            return $c->userRepository->selectAll();
         };
 
         if (is_callable(${$this->reqMethod})) {

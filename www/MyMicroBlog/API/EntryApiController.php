@@ -19,23 +19,23 @@ class EntryApiController extends BaseApiController
      */
     protected function baseRoute(): void
     {
-        $GET = function (EntryApiController $controller) {
-            return $controller->entryRepository->selectAll();
+        $GET = function (EntryApiController $c) {
+            return $c->entryRepository->selectAll();
         };
 
-        $POST = function (EntryApiController $controller) {
-            $controller->entryRepository->insert($controller->jsonPostData);
-            return  $controller->entryRepository->selectByPk($controller->jsonPostData['id']);
+        $POST = function (EntryApiController $c) {
+            $c->entryRepository->insert($c->jsonPostData);
+            return  $c->entryRepository->selectByPk($c->jsonPostData['id']);
         };
 
-        $PUT = function (EntryApiController $controller) {
-            $controller->entryRepository->update($controller->jsonPostData['id'], $controller->jsonPostData);
-            return $controller->entryRepository->selectByPk($controller->jsonPostData['id']);
+        $PUT = function (EntryApiController $c) {
+            $c->entryRepository->update($c->jsonPostData['id'], $c->jsonPostData);
+            return $c->entryRepository->selectByPk($c->jsonPostData['id']);
         };
 
-        $DELETE = function (EntryApiController $controller) {
-            $controller->entryRepository->selectByPk($controller->queryParams['id']);
-            return $controller->entryRepository->delete($controller->queryParams['id']);
+        $DELETE = function (EntryApiController $c) {
+            $c->entryRepository->selectByPk($c->queryParams['id']);
+            return $c->entryRepository->delete($c->queryParams['id']);
         };
 
         if (is_callable(${$this->reqMethod})) {
@@ -51,9 +51,9 @@ class EntryApiController extends BaseApiController
      */
     protected function toggleRoute(): void
     {
-        $GET = function (EntryApiController $controller) {
-            $controller->entryRepository->toggleHighlight($controller->queryParams['id']);
-            return $controller->entryRepository->selectByPk($controller->queryParams['id']);
+        $GET = function (EntryApiController $c) {
+            $c->entryRepository->toggleHighlight($c->queryParams['id']);
+            return $c->entryRepository->selectByPk($c->queryParams['id']);
         };
 
         if (is_callable(${$this->reqMethod})) {

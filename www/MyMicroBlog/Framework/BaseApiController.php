@@ -2,7 +2,7 @@
 
 namespace MyMicroBlog\Framework;
 
-class BaseApiController
+abstract class BaseApiController
 {
     protected string $reqMethod = '';
     protected array $uriSegments = [];
@@ -71,9 +71,7 @@ class BaseApiController
      * Initialize controller variables here
      * @return void
      */
-    public function initialize(): void
-    {
-    }
+    abstract protected function initialize(): void;
 
     /**
      * __call magic method.

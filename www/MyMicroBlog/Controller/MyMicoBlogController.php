@@ -4,23 +4,24 @@ namespace MyMicroBlog\Controller;
 use MyMicroBlog\Framework\BaseController;
 use MyMicroBlog\Model\Domain\MyMicroBlogEntry;
 use MyMicroBlog\Model\EntryRepository;
-use MyMicroBlog\View\MyMicroBlogView;
+// use MyMicroBlog\View\MyMicroBlogView;
 
 class MyMicoBlogController extends BaseController
 {
     private EntryRepository $entryRepository;
-    private MyMicroBlogView $blogView;
+    // private MyMicroBlogView $blogView;
 
     protected function initialize(): void
     {
         $this->entryRepository = new EntryRepository();
-        $this->blogView = new MyMicroBlogView();
+        // $this->blogView = new MyMicroBlogView();
     }
 
     protected function beforeDispatch(): void
     {
         if ($this->reqAction !== 'edit' && isLoggedIn()) {
-            $this->blogView->showNewEntryForm();
+            // $this->blogView->showNewEntryForm();
+            echo _template('NewEntryForm');
         }
     }
 
@@ -41,13 +42,13 @@ class MyMicoBlogController extends BaseController
     protected function afterDispatch(): void
     {
         $entries = $this->entryRepository->getEntriesSorted();
-        $this->blogView->printAllEntries($entries);
+        echo _template('Entries', ['entries' => $entries]);
     }
 
     protected function editAction(): void
     {
         $entry = $this->entryRepository->selectByPk($_REQUEST['entryId']);
-        $this->blogView->showEditForm($entry);
+        echo _template('EditEntryForm', ['entry' => $entry]);
     }
 
     protected function deleteAction(): void

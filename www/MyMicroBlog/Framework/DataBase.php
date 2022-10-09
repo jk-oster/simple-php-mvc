@@ -23,8 +23,8 @@ class DataBase
 
     // open mysql data base
     protected function openDB(): mysqli
-    {
-        $this->DB = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+    {        
+        $this->DB = new mysqli('database', $_ENV['MYSQL_USER'], $_ENV['MYSQL_PASSWORD'], $_ENV['MYSQL_DATABASE'], $_ENV['HOST_MACHINE_MYSQL_PORT']);
         if ($this->DB->connect_error) {
             die ("Could not establish database connection: " . $this->DB->connect_error);
         }

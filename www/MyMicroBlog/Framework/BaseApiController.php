@@ -2,7 +2,7 @@
 
 namespace MyMicroBlog\Framework;
 
-abstract class BaseApiController
+class BaseApiController
 {
     protected string $reqMethod = '';
     protected array $uriSegments = [];
@@ -17,11 +17,13 @@ abstract class BaseApiController
         $this->uriSegments = explode('/', $uri);
         parse_str($_SERVER['QUERY_STRING'], $this->queryParams);
 
-        try {
-            $this->jsonPostData = json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
-        }
-        catch (\JsonException $e) {
-            $this->jsonPostData = [];
+        $phpInput = file_get_contents('php://input');
+        if ($phpInput) {
+            try {
+                $this->jsonPostData = json_decode($phpInput, true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                $this->sendResponse(400);
+            }
         }
 
         // Initialize controller
@@ -46,16 +48,14 @@ abstract class BaseApiController
 
     // Executes controller action matching request action
     // If no action defined executes defaultAction
-    public function dispatch($actionFnName = ''): void
+    public function dispatch($routeFnName = ''): void
     {
-        if(!array_key_exists(4,$this->uriSegments) && method_exists($this, 'defaultAction')) {
-            $this->defaultAction();
+        if (!array_key_exists(3, $this->uriSegments) && method_exists($this, 'baseRoute')) {
+            $this->baseRoute();
+        } else {
+            $routeFunctionName = ($routeFnName === '' ? $this->uriSegments[3] : $routeFnName) . "Route";
+            $this->{$routeFunctionName}();
         }
-        else {
-            $actionFunctionName = $actionFnName === '' ? $this->uriSegments[4] . "Action" : $actionFnName;
-            $this->{$actionFunctionName}();
-        }
-
     }
 
     /**
@@ -71,7 +71,9 @@ abstract class BaseApiController
      * Initialize controller variables here
      * @return void
      */
-    abstract protected function initialize(): void;
+    protected function initialize(): void
+    {
+    }
 
     /**
      * __call magic method.
@@ -79,42 +81,14 @@ abstract class BaseApiController
      */
     public function __call($name, $arguments)
     {
-        $this->sendOutput('', 404, ['HTTP/1.1 404 Not Found']);
+        $this->sendResponse(404);
     }
 
     /**
      * Send API output .returnJsonHttpResponse
      */
-    protected function sendOutput(mixed $data = null, int $statusCode = 200, array $httpHeaders = ['HTTP/1.1 200 OK']): void
+    protected function sendResponse(int $statusCode = 200, mixed $data = null, array $additionalHttpHeaders = [])
     {
-        // remove any string that could create an invalid JSON
-        // such as PHP Notice, Warning, logs...
-        ob_clean();
-
-        // this will clean up any previously added headers, to start clean
-        header_remove();
-
-        // Hook to add http headers
-        if (function_exists('add_http_header')) {
-            add_http_header();
-        }
-
-        // Add argument headers
-        if (is_array($httpHeaders) && count($httpHeaders)) {
-            foreach ($httpHeaders as $httpHeader) {
-                header($httpHeader);
-            }
-        }
-
-        // Set your HTTP response code, 2xx = SUCCESS,
-        // anything else will be error, refer to HTTP documentation
-        http_response_code($statusCode);
-
-        // encode your PHP Object or Array into a JSON string.
-        // stdClass or array
-        echo $data;
-
-        // making sure nothing is added
-        exit();
+        _sendResponse($statusCode, $data, $additionalHttpHeaders);
     }
 }

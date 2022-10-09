@@ -1,20 +1,18 @@
 <?php
+
 namespace MyMicroBlog\Controller;
 
 use MyMicroBlog\Framework\BaseController;
 use MyMicroBlog\Model\Domain\User;
 use MyMicroBlog\Model\UserRepository;
-use MyMicroBlog\View\LoginView;
 
 class LoginController extends BaseController
 {
     private UserRepository $userRepository;
-    private LoginView $loginView;
 
-    protected function initialize():void
+    protected function initialize(): void
     {
         $this->userRepository = new UserRepository();
-        $this->loginView = new LoginView();
     }
 
     private function register(): bool
@@ -30,14 +28,12 @@ class LoginController extends BaseController
 
     protected function defaultAction(): void
     {
-        if(isLoggedIn()){
+        if (isLoggedIn()) {
             //case user wants to view page
-            $this->loginView->showLogoutForm();
-        }
-        else {
+            echo _template('LogoutForm');
+        } else {
             //case user wants to view page
-            $this->loginView->showLoginForm();
-            $this->loginView->showRegistrationForm();
+            echo _template('LoginForm');
         }
     }
 
@@ -50,12 +46,11 @@ class LoginController extends BaseController
             $_SESSION['role'] = $user->role;
             $_SESSION['id'] = $user->id;
             $_SESSION['user'] = $user->name;
-            $this->loginView->showLogoutForm();
+            echo _template('LogoutForm');
         } else {
             //case user data incorrect
             echo 'Login data incorrect!<br>';
-            $this->loginView->showLoginForm();
-            $this->loginView->showRegistrationForm();
+            echo _template('LoginForm');
         }
     }
 
@@ -69,25 +64,21 @@ class LoginController extends BaseController
             $_SESSION['role'] = $user->role;
             $_SESSION['id'] = $user->id;
             $_SESSION['user'] = $user->name;
-            $this->loginView->showLogoutForm();
+            echo _template('LogoutForm');
         } else {
             //data incorrect
-            //var_dump($aErrors);
             echo 'Registration data not valid!<br>';
-            $this->loginView->showLoginForm();
-            $this->loginView->showRegistrationForm();
+            echo _template('LoginForm');
         }
     }
 
     protected function logoutAction(): void
     {
-        if(isLoggedIn()) {
+        if (isLoggedIn()) {
             unset($_SESSION['user'], $_SESSION['role'], $_SESSION['id']);
             echo 'You have been logged out!<br>';
-            $this->loginView->showLoginForm();
-            $this->loginView->showRegistrationForm();
-        }
-        else {
+            echo _template('LoginForm');
+        } else {
             $this->defaultAction();
         }
     }
@@ -100,14 +91,18 @@ class LoginController extends BaseController
             $aErrors['usernamereg'] = 'Username must be at least 4 characters long!';
         }
         //password
-        if (!isset($_REQUEST['password1'], $_REQUEST['password2']) ||
+        if (
+            !isset($_REQUEST['password1'], $_REQUEST['password2']) ||
             $_REQUEST['password1'] !== $_REQUEST['password2'] ||
-            strlen($_REQUEST['password1']) < 4) {
+            strlen($_REQUEST['password1']) < 4
+        ) {
             $aErrors['password1'] = 'Password must be at least 4 characters long and passwords must match!';
         }
         //email
-        if (!isset($_REQUEST['email']) ||
-            filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) === false) {
+        if (
+            !isset($_REQUEST['email']) ||
+            filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) === false
+        ) {
             $aErrors['email'] = 'Must be a valid email address!';
         }
 

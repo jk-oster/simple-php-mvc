@@ -87,8 +87,7 @@ abstract class BaseModel extends Database
     protected function getForeignKeys($tableName): array
     {
         $sql = "select TABLE_NAME from INFORMATION_SCHEMA.TABLE_CONSTRAINTS where TABLE_NAME='"
-            . $tableName . "' and TABLE_SCHEMA='" . DB_DATABASE
-            . "' and CONSTRAINT_TYPE = 'FOREIGN KEY';";
+            . $tableName . "' and TABLE_SCHEMA='database' and CONSTRAINT_TYPE = 'FOREIGN KEY';";
         $tables = $this->getCol($sql);
         $result = [];
         foreach ($tables as $table) {
@@ -150,7 +149,7 @@ abstract class BaseModel extends Database
     public function insert(mixed $data): bool|mysqli_result
     {
         if(is_object($data)){
-            $data = $this->getDomainClassName()::arrayFromObject($data);
+            $data = $this->getDomainClassName()::toArray($data);
         }
         $DB = $this->openDB();
         $inFields = [];
@@ -182,7 +181,7 @@ abstract class BaseModel extends Database
     {
         if ($this->selectByPk($pKey)) {
             if(is_object($data)){
-                $data = $this->getDomainClassName()::arrayFromObject($data);
+                $data = $this->getDomainClassName()::toArray($data);
             }
             $DB = $this->openDB();
             $upList = [];

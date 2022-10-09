@@ -16,7 +16,9 @@ use JsonSerializable;
  */
 abstract class BaseDomain implements JsonSerializable
 {
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     /**
      * @param $propertyName
@@ -75,11 +77,9 @@ abstract class BaseDomain implements JsonSerializable
      */
     public static function toArray($object): array
     {
-        if (is_array($object) || is_object($object))
-        {
+        if (is_array($object) || is_object($object)) {
             $result = [];
-            foreach ($object as $key => $value)
-            {
+            foreach ($object as $key => $value) {
                 $result[$key] = (is_array($value) || is_object($value)) ? self::toArray($value) : $value;
             }
             return $result;
@@ -87,7 +87,8 @@ abstract class BaseDomain implements JsonSerializable
         return $object;
     }
 
-    public function jsonSerialize(){
+    public function jsonSerialize(): mixed
+    {
         return self::toArray($this);
     }
 }

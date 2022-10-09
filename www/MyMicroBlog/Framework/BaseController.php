@@ -29,7 +29,7 @@ abstract class BaseController
         }
 
         // execute 'hook' canAccessDispatch
-        if($this->canAccessDispatch()){
+        if ($this->canAccessDispatch()) {
             // Select controller action corresponding to request action and execute it
             $this->dispatch();
         }
@@ -42,9 +42,9 @@ abstract class BaseController
 
     // Executes controller action matching request action
     // If no action defined executes defaultAction
-    public function dispatch($actionFnName=''): void
+    public function dispatch($actionFnName = ''): void
     {
-        $actionFunctionName = $actionFnName ?? $this->reqAction . "Action"; // e.q. 'list' -> 'listAction'
+        $actionFunctionName = $actionFnName ?: $this->reqAction . "Action"; // e.q. 'list' -> 'listAction'
         if (in_array($actionFunctionName, get_class_methods($this), true)) {
             $this->{$actionFunctionName}();
         } // If no action matches $action might be from another controller or empty
@@ -59,7 +59,7 @@ abstract class BaseController
      * Overwrite to handle access limitations
      * @return bool if dispatch is allowed
      */
-    protected function canAccessDispatch():bool
+    protected function canAccessDispatch(): bool
     {
         return true;
     }

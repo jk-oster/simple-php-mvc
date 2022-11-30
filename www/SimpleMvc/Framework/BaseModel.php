@@ -16,6 +16,11 @@ use JsonSerializable;
  */
 abstract class BaseModel implements JsonSerializable
 {
+    // Required fields for every model
+    protected int $id;
+    protected string $created;
+    protected string $edited;
+
     public function __construct()
     {
     }

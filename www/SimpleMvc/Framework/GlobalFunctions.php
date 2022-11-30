@@ -190,6 +190,12 @@ function _send_json_response($data) {
     }
 }
 
+// PHP equivalent of JavaScript encodeURIComponent
+function encodeURIComponent($str) {
+    $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+    return strtr(rawurlencode($str), $revert);
+}
+
 // Xml2Array and Array2Xml -> https://github.com/digitickets/lalit
 function _xml_to_array($xmlstring){
     
@@ -198,7 +204,6 @@ function _xml_to_array($xmlstring){
     $array = json_decode($json,TRUE);
   
     return $array;
-  
 }
 
 function _send_xml_response($data) {

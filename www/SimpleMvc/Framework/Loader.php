@@ -1,7 +1,6 @@
 <?php
 
 namespace SimpleMvc\Framework;
-use static;
 
 class Loader
 {
@@ -21,6 +20,7 @@ class Loader
         // Global error variable
         $aErrors = [];
         // Load DB config
+        require_once("../../baseConfig.php");
         require_once("../config.php");
 
         self::initSession();
@@ -30,7 +30,7 @@ class Loader
         self::loadFramework();
 
         // Load global functions
-        require_once("./includes.php");
+        require_once("./GlobalFunctions.php");
     }
 
     // Autoload Class Files from SimpleMvc Framework

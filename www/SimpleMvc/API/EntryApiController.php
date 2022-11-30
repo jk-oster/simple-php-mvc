@@ -1,9 +1,9 @@
 <?php
 
-namespace MyMicroBlog\Api;
+namespace SimpleMvc\Api;
 
-use MyMicroBlog\Framework\BaseApiController;
-use MyMicroBlog\Model\EntryRepository;
+use SimpleMvc\Framework\BaseApiController;
+use SimpleMvc\Domain\EntryRepository;
 
 class EntryApiController extends BaseApiController
 {

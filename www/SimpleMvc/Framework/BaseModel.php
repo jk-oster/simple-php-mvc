@@ -1,6 +1,6 @@
 <?php
 
-namespace MyMicroBlog\Framework;
+namespace SimpleMvc\Framework;
 
 use Exception;
 use JsonSerializable;
@@ -14,7 +14,7 @@ use JsonSerializable;
  * @author Jakob Osterberger
  * @date 13.06.2022
  */
-abstract class BaseDomain implements JsonSerializable
+abstract class BaseModel implements JsonSerializable
 {
     public function __construct()
     {
@@ -58,7 +58,7 @@ abstract class BaseDomain implements JsonSerializable
     /**
      * Maps array keys and values to Domain object properties
      * @param $array
-     * @return \BaseDomain Domain object with properties set to array values
+     * @return \BaseModel Domain object with properties set to array values
      */
     public static function objectFrom($array): mixed
     {
@@ -71,7 +71,7 @@ abstract class BaseDomain implements JsonSerializable
     }
 
     /**
-     * Maps Domain object properties to an assoc array
+     * Maps Domain object properties recursively to an assoc array
      * @param $object
      * @return array
      */

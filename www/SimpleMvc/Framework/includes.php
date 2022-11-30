@@ -1,33 +1,5 @@
 <?php
 
-use MyMicroBlog\Framework\BaseDomain;
-use MyMicroBlog\Model\Domain\User;
-use MyMicroBlog\Framework\DataBase;
-
-$currentUser = [];
-
-// Global function to access users
-function getUserById($id): User|null
-{
-    return User::objectFrom((new Database())->getRow("SELECT * FROM user WHERE id= '$id';"));
-}
-
-// Global function isLoggedIn
-function isLoggedIn(): bool
-{
-    return isset($_SESSION['user'], $_SESSION['role']);
-}
-
-// Global function getCurrentUser
-function getCurrentUser(): User|null
-{
-    global $currentUser;
-    if (!$currentUser) {
-        $currentUser = getUserById($_SESSION['id']) ?: null;
-    }
-    return $currentUser;
-}
-
 /**
  * Simple PHP Templating function
  *
@@ -106,10 +78,11 @@ function _html(string $format, array $args = []): string
     );
 }
 
-function _json($data): void
+function _json($data, $prettyPrint = true): void
 {
     header('Content-Type: application/json');
-    echo json_encode($data, JSON_PRETTY_PRINT);
+    if($prettyPrint) echo json_encode($data, JSON_PRETTY_PRINT);
+    else echo json_encode($data);
 }
 
 function _js_var($varname, $data, $type = "let"): void
@@ -167,7 +140,7 @@ function _print_var_name($var)
     return trim($var);
 }
 
-function _sendResponse(int $statusCode = 200, mixed $data = null, array $additionalHttpHeaders = []): void
+function _sendResponse(int $statusCode = 200, mixed $data = null, array $additionalHttpHeaders = [], string $type = 'JSON'): void
 {
     // remove any string that could create an invalid JSON
     // such as PHP Notice, Warning, logs...
@@ -181,6 +154,7 @@ function _sendResponse(int $statusCode = 200, mixed $data = null, array $additio
         call_user_func('add_http_header');
     }
 
+    // Set HTTP status code header
     header(HTTP_STATUS_CODE_MAPPING[$statusCode]);
 
     // Add argument headers
@@ -192,6 +166,14 @@ function _sendResponse(int $statusCode = 200, mixed $data = null, array $additio
 
     http_response_code($statusCode);
 
+    if($type == 'JSON') _send_json_response($data);
+    
+
+    // making sure nothing is added
+    exit();
+}
+
+function _send_json_response($data) {
     // encode your PHP Object or Array into a JSON string.
     if ($data) {
         $encoded = "";
@@ -206,7 +188,49 @@ function _sendResponse(int $statusCode = 200, mixed $data = null, array $additio
         header('Content-Type: application/json');
         echo $encoded;
     }
-
-    // making sure nothing is added
-    exit();
 }
+
+// Xml2Array and Array2Xml -> https://github.com/digitickets/lalit
+function _xml_to_array($xmlstring){
+    
+    $xml = simplexml_load_string($xmlstring, "SimpleXMLElement", LIBXML_NOCDATA);
+    $json = json_encode($xml);
+    $array = json_decode($json,TRUE);
+  
+    return $array;
+  
+}
+
+function _send_xml_response($data) {
+    $xml = new DOMDocument();
+
+    $rootNode = $xml->appendChild($xml->createElement("items"));
+
+    foreach ($data['article'] as $article) {
+        if (! empty($article)) {
+            $itemNode = $rootNode->appendChild($xml->createElement('item'));
+            foreach ($article as $k => $v) {
+                $itemNode->appendChild($xml->createElement($k, $v));
+            }
+        }
+    }
+
+    $xml->formatOutput = true;
+
+    $backup_file_name = 'file_backup_' . time() . '.xml';
+    $xml->save($backup_file_name);
+
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/xml');
+    header('Content-Disposition: attachment; filename=' . basename($backup_file_name));
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($backup_file_name));
+    ob_clean();
+    flush();
+    readfile($backup_file_name);
+    exec('rm ' . $backup_file_name);
+}
+

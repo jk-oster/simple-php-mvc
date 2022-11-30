@@ -1,11 +1,11 @@
 <?php
 
-namespace MyMicroBlog\Model;
+namespace SimpleMvc\Model;
 
-use MyMicroBlog\Framework\BaseModel;
-use MyMicroBlog\Model\Domain\User;
+use SimpleMvc\Framework\BaseRepository;
+use SimpleMvc\Domain\Domain\User;
 
-class UserRepository extends BaseModel
+class UserRepository extends BaseRepository
 {
     /**
      * Gets user by specified property value

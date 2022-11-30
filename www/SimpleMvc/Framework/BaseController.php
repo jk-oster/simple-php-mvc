@@ -1,6 +1,6 @@
 <?php
 
-namespace MyMicroBlog\Framework;
+namespace SimpleMvc\Framework;
 
 /**
  * Abstract Action Controller.

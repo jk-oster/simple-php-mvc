@@ -1,10 +1,10 @@
 <?php
 
-namespace MyMicroBlog\Model\Domain;
+namespace SimpleMvc\Domain\Model;
 
-use MyMicroBlog\Framework\BaseDomain;
+use SimpleMvc\Framework\BaseModel;
 
-class MyMicroBlogEntry extends BaseDomain
+class MyMicroBlogEntry extends BaseModel
 {
     protected int $id;
     protected string $created;

@@ -1,10 +1,10 @@
 <?php
 
-namespace MyMicroBlog\Model;
+namespace SimpleMvc\Model;
 
-use MyMicroBlog\Framework\BaseModel;
+use SimpleMvc\Framework\BaseRepository;
 
-class EntryRepository extends BaseModel
+class EntryRepository extends BaseRepository
 {
     public function __construct()
     {

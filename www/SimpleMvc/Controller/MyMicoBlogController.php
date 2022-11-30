@@ -1,20 +1,17 @@
 <?php
-namespace MyMicroBlog\Controller;
+namespace SimpleMvc\Controller;
 
-use MyMicroBlog\Framework\BaseController;
-use MyMicroBlog\Model\Domain\MyMicroBlogEntry;
-use MyMicroBlog\Model\EntryRepository;
-// use MyMicroBlog\View\MyMicroBlogView;
+use SimpleMvc\Framework\BaseController;
+use SimpleMvc\Domain\Model\MyMicroBlogEntry;
+use SimpleMvc\Domain\EntryRepository;
 
 class MyMicoBlogController extends BaseController
 {
     private EntryRepository $entryRepository;
-    // private MyMicroBlogView $blogView;
 
     protected function initialize(): void
     {
         $this->entryRepository = new EntryRepository();
-        // $this->blogView = new MyMicroBlogView();
     }
 
     protected function beforeDispatch(): void

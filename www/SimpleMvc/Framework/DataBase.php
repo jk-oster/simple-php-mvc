@@ -1,6 +1,6 @@
 <?php
 
-namespace MyMicroBlog\Framework;
+namespace SimpleMvc\Framework;
 
 use mysqli;
 use mysqli_result;

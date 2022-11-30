@@ -1,10 +1,10 @@
 <?php
 
-namespace MyMicroBlog\Model\Domain;
+namespace SimpleMvc\Domain\Model;
 
-use MyMicroBlog\Framework\BaseDomain;
+use SimpleMvc\Framework\BaseModel;
 
-class User extends BaseDomain {
+class User extends BaseModel {
     protected int $id;
     protected string $name;
     protected string $pw;

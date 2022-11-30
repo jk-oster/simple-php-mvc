@@ -1,10 +1,10 @@
 <?php
 
-namespace MyMicroBlog\Controller;
+namespace SimpleMvc\Controller;
 
-use MyMicroBlog\Framework\BaseController;
-use MyMicroBlog\Model\Domain\User;
-use MyMicroBlog\Model\UserRepository;
+use SimpleMvc\Framework\BaseController;
+use SimpleMvc\Domain\Model\User;
+use SimpleMvc\Domain\UserRepository;
 
 class LoginController extends BaseController
 {

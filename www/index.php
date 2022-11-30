@@ -1,25 +1,8 @@
 <?php
-// Start PHP Session
-session_id("jkoster");
-session_start();
-// Set language key for translation
-setlocale(LC_MESSAGES, 'de_DE');
-// Global error variable
-$aErrors = [];
-// Load DB config
-require_once("config.php");
-// Load global functions
-require_once("include.php");
-// Autoload Class Files from MyMicroBlog Framework
-spl_autoload_register(
-    static function ($pClassName) {
-        if(str_contains($pClassName,'MyMicroBlog')){
-            // Change ClassPath to FilePath
-            require_once(str_replace("\\", "/", $pClassName) . '.php');
-        }
-    }
-);
-
+use SimpleMvc\Loader;
+// Launch Application
+require_once('./SimpleMvc/Framework/Loader.php');
+Loader::launchSimpleMvc();
 ?>
 
 <!doctype html>
@@ -43,14 +26,14 @@ spl_autoload_register(
         <div class="col-4">
             <?php
             // Show Login here
-            new MyMicroBlog\Controller\LoginController();
+            new SimpleMvc\Controller\LoginController();
             ?>
         </div>
 
         <div class="col-6">
             <?php
             // Show blog here
-            new MyMicroBlog\Controller\MyMicoBlogController();
+            new SimpleMvc\Controller\MyMicoBlogController();
             ?>
         </div>
     </div>

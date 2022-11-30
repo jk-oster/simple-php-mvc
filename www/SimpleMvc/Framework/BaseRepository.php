@@ -1,6 +1,6 @@
 <?php
 
-namespace MyMicroBlog\Framework;
+namespace SimpleMvc\Framework;
 
 use mysqli_result;
 
@@ -18,7 +18,7 @@ use mysqli_result;
  * @author Jakob Osterberger
  * @date 10.06.2022
  */
-abstract class BaseModel extends Database
+abstract class BaseRepository extends Database
 {
     protected string $tableName;
     protected array $fields;
@@ -46,11 +46,11 @@ abstract class BaseModel extends Database
 
     protected function getDomainClassName(): string
     {
-        return $this->getRootNamespace() . "\\Model\\Domain\\" . $this->domainName;
+        return $this->getRootNamespace() . "\\Domain\\Domain\\" . $this->domainName;
     }
 
     /**
-     * Gets Domain name from class name e.q. MyMicroBlog\Model\UserRepository -> 'User'
+     * Gets Domain name from class name e.q. SimpleMvc\Domain\UserRepository -> 'User'
      * @return string
      */
     protected function getDomainName(): string

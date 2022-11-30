@@ -1,6 +1,6 @@
 <?php
 
-namespace MyMicroBlog\Framework;
+namespace SimpleMvc\Framework;
 
 class ApiRouter
 {
@@ -15,6 +15,7 @@ class ApiRouter
         if (isset($this->uriSegments[2])) {
             $currentRoute = $this->uriSegments[2];
 
+            // launch controller
             if (array_key_exists($currentRoute, $routes)) {
                 $this->controller = new $routes[$currentRoute]['controller']();
             } else {

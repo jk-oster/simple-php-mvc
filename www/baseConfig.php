@@ -3,6 +3,7 @@
 const PROJECT_ROOT_PATH =  __DIR__;
 const PROJECT_NAME = 'SimpleMvc';
 const PROJECT_NAME_PATH = PROJECT_ROOT_PATH  . "/" . PROJECT_NAME . "/";
+const SIMPLE_MVC_DEV_MODE = true;
 
 define('DEFAULT_ACTION', $_SERVER['PHP_SELF']);
 
@@ -17,3 +18,6 @@ const HTTP_STATUS_CODE_MAPPING = [
     500 => 'HTTP/1.1 500 Internal Server Error',
     501 => 'HTTP/1.1 501 Not Implemented',
 ];
+
+// Global error variable
+$GLOBALS['aErrors'] = [];

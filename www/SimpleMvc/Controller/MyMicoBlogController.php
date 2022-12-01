@@ -14,14 +14,6 @@ class MyMicoBlogController extends BaseController
         $this->entryRepository = new EntryRepository();
     }
 
-    protected function beforeDispatch(): void
-    {
-        if ($this->reqAction !== 'edit' && isLoggedIn()) {
-            // $this->blogView->showNewEntryForm();
-            echo _template('NewEntryForm');
-        }
-    }
-
     // Check if user has permission to dispatch action
     protected function canAccessDispatch(): bool
     {
@@ -36,8 +28,10 @@ class MyMicoBlogController extends BaseController
         return true;
     }
 
-    protected function afterDispatch(): void
-    {
+    protected function listAction(): void {
+        if ($this->reqAction !== 'edit' && isLoggedIn()) {
+            echo _template('NewEntryForm');
+        }
         $entries = $this->entryRepository->getEntriesSorted();
         echo _template('EntriesList', ['entries' => $entries]);
     }
@@ -66,7 +60,6 @@ class MyMicoBlogController extends BaseController
                 'title' => $_REQUEST['title'],
                 'text' => $_REQUEST['noticeText'],
             ]);
-            _debug($entry);
             $this->entryRepository->insert($entry);
         } else {
             echo "Please enter entry title";

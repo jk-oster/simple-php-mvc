@@ -32,7 +32,8 @@ require_once('./SimpleMvc/Framework/Loader.php');
         <div class="col-6">
             <?php
             // Show blog here
-            new SimpleMvc\Controller\MyMicoBlogController();
+            $microBlogController = new SimpleMvc\Controller\MyMicoBlogController();
+            $microBlogController->dispatch('listAction');
             ?>
         </div>
     </div>

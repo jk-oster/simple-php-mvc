@@ -17,8 +17,7 @@ class Loader
 
     // Run SimpleMvc
     public static function launchSimpleMvc() {
-        // Global error variable
-        $aErrors = [];
+        
         // Load DB config
         require_once(__DIR__ . "/../../baseConfig.php");
         require_once(__DIR__ . "/../config.php");

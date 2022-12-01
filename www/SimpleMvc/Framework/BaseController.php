@@ -42,14 +42,14 @@ abstract class BaseController
 
     // Executes controller action matching request action
     // If no action defined executes defaultAction
-    public function dispatch($actionFnName = ''): void
+    public function dispatch($actionFnName = '', $additionalArgs = null): void
     {
         $actionFunctionName = $actionFnName ?: $this->reqAction . "Action"; // e.q. 'list' -> 'listAction'
         if (in_array($actionFunctionName, get_class_methods($this), true)) {
-            $this->{$actionFunctionName}();
+            $this->{$actionFunctionName}($additionalArgs);
         } // If no action matches $action might be from another controller or empty
-        else if (method_exists($this, 'defaultAction')) {
-            $this->{'defaultAction'}();
+        else if (method_exists($this, 'indexAction')) {
+            $this->{'indexAction'}($additionalArgs);
         }
     }
 

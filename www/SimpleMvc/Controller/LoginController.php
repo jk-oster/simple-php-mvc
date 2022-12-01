@@ -26,7 +26,7 @@ class LoginController extends BaseController
         return $this->userRepository->addUser($user);
     }
 
-    protected function defaultAction(): void
+    protected function indexAction(): void
     {
         if (isLoggedIn()) {
             //case user wants to view page
@@ -79,7 +79,7 @@ class LoginController extends BaseController
             echo 'You have been logged out!<br>';
             echo _template('LoginForm');
         } else {
-            $this->defaultAction();
+            $this->indexAction();
         }
     }
 

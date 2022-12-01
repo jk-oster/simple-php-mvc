@@ -24,7 +24,7 @@ abstract class BaseRepository extends Database
     protected array $fields;
     protected string $domainName;
 
-    public function __construct($tableName = '', $domainName = "")
+    public function __construct($tableName = '', $domainName = '')
     {
         // Set Domain name matching model
         $this->domainName = $domainName !== '' ? $domainName : $this->getDomainName();
@@ -148,27 +148,31 @@ abstract class BaseRepository extends Database
      */
     public function insert(mixed $data): bool|mysqli_result
     {
-        if(is_object($data)){
+        if (is_object($data)) {
             $data = $this->getDomainClassName()::toArray($data);
         }
-        $DB = $this->openDB();
-        $inFields = [];
-        $inValues = [];
-        foreach ($data as $key => $value) {
-            if (in_array($key, $this->fields, true)) {
-                $inFields[] = $key;
-                $inValues[] = "'{$DB->real_escape_string($value)}'";
-            } else {
-                echo "Error: Cannot insert unknown field: '$key'";
-                return false;
+        if (is_array($data)) {
+            $DB = $this->openDB();
+            $inFields = [];
+            $inValues = [];
+            foreach ($data as $key => $value) {
+                if (in_array($key, $this->fields, true)) {
+                    $inFields[] = $key;
+                    $inValues[] = "'{$DB->real_escape_string($value)}'";
+                } else {
+                    echo "Error: Cannot insert unknown field: '$key'";
+                    return false;
+                }
             }
+            $dataFields = implode(', ', $inFields);
+            $valueFields = implode(', ', $inValues);
+            $sql = "INSERT INTO $this->tableName ($dataFields) VALUES ($valueFields);";
+            $result = $DB->query($sql);
+            $this->closeDB();
+            return $result;
         }
-        $dataFields = implode(', ', $inFields);
-        $valueFields = implode(', ', $inValues);
-        $sql = "INSERT INTO $this->tableName ($dataFields) VALUES ($valueFields);";
-        $result = $DB->query($sql);
-        $this->closeDB();
-        return $result;
+        echo "Error: Cannot insert data that is not an array or model object.";
+        return false;
     }
 
     /**
@@ -180,24 +184,26 @@ abstract class BaseRepository extends Database
     public function update($pKey, mixed $data): bool|mysqli_result
     {
         if ($this->selectByPk($pKey)) {
-            if(is_object($data)){
+            if (is_object($data)) {
                 $data = $this->getDomainClassName()::toArray($data);
             }
-            $DB = $this->openDB();
-            $upList = [];
-            foreach ($data as $key => $value) {
-                if (in_array($key, $this->fields, true)) {
-                    $upList[] = "$key='{$DB->real_escape_string($value)}'";
-                } else {
-                    echo "Error: Cannot update unknown field: '$key'";
-                    return false;
+            if (is_array($data)) {
+                $DB = $this->openDB();
+                $upList = [];
+                foreach ($data as $key => $value) {
+                    if (in_array($key, $this->fields, true)) {
+                        $upList[] = "$key='{$DB->real_escape_string($value)}'";
+                    } else {
+                        echo "Error: Cannot update unknown field: '$key'";
+                        return false;
+                    }
                 }
+                $setStr = implode(', ', $upList); // e.q. "name='Rudi', text='New Text here'"
+                $sql = "UPDATE $this->tableName SET $setStr WHERE {$this->fields['pk']}='$pKey';";
+                $result = $DB->query($sql);
+                $this->closeDB();
+                return $result;
             }
-            $setStr = implode(', ', $upList); // e.q. "name='Rudi', text='New Text here'"
-            $sql = "UPDATE $this->tableName SET $setStr WHERE {$this->fields['pk']}='$pKey';";
-            $result = $DB->query($sql);
-            $this->closeDB();
-            return $result;
         }
         echo "Error: Cannot update fields of nonexistent field: '$pKey'";
         return false;

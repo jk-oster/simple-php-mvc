@@ -1,11 +1,11 @@
 [![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
-# A simple MicroBlog implementing a simple mvc framework
+# A simple mvc framework in php implementing a micor blog
 @author Jakob Osterberger
 
 I coded this little framework to get familiar with the MVC pattern and how it is used in PHP applications.
 
-The framework includes a:
+The framework includes:
 
 ### Database class to ease DB access, provides methods to:
 - establish / close DataBase connection
@@ -15,12 +15,12 @@ The framework includes a:
 - retrieve first column of results
 - retrieve first value of results
  
-### Model - a simple DataClass wich provides:
+### Model - a simple Model Class wich provides:
 - magic GETTER
 - magic SETTER
 - static method to map an array to Domain Object
 
-### Base Model Class for domain repositories.
+### Base Repository Class for domain repositories.
 Automatically retrieves all fields & keys of domain in database by naming convention of extended Model
 (e.q. 'UserRepository' -> DomainClassName = 'User', DataBaseTableName = 'user'). Provides methods to:
 - CREATE new rows in DataBase Table
@@ -39,4 +39,4 @@ Automatically retrieves all fields & keys of domain in database by naming conven
 ### Base Api Controller
 - Takes request and evaluates corresponding endpoint
 - Checks access permissions for endpoint before executing
-- Calls endpoint
+- Calls 

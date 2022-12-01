@@ -1,9 +1,9 @@
 <?php
 
-namespace SimpleMvc\Model;
+namespace SimpleMvc\Domain;
 
 use SimpleMvc\Framework\BaseRepository;
-use SimpleMvc\Domain\Domain\User;
+use SimpleMvc\Domain\Model\User;
 
 class UserRepository extends BaseRepository
 {

@@ -23,19 +23,29 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
 -- Tabellenstruktur für Tabelle `entry`
---
-
 CREATE TABLE `entry` (
   `id` int(11) UNSIGNED NOT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   `edited` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `createdUser` int(11) NOT NULL,
-  `editedUser` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `text` varchar(255) DEFAULT NULL,
-  `highlight` tinyint(1) NOT NULL
+
+  `createdUser` int(11) DEFAULT '0' NOT NULL,
+  `editedUser` int(11) DEFAULT '0' NOT NULL,
+  `title` varchar(255) DEFAULT '' NOT NULL,
+  `text` varchar(255) DEFAULT '' NULL,
+  `highlight` tinyint(1)  DEFAULT '0' NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabellenstruktur für Tabelle `user`
+CREATE TABLE `user` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
+  `edited` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+
+  `name` varchar(255) DEFAULT '' NOT NULL,
+  `pw` varchar(255) DEFAULT '' NOT NULL,
+  `email` varchar(255) DEFAULT '' NOT NULL,
+  `role` int(11) DEFAULT '' NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -58,19 +68,6 @@ INSERT INTO `entry` (`id`, `created`, `edited`, `createdUser`, `editedUser`, `ti
 (39, '2022-06-17 16:28:29', '2022-06-17 16:28:29', 1, 1, 'API inserted Title', 'Whatever', 0);
 
 -- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `user`
---
-
-CREATE TABLE `user` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `pw` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `created` datetime NOT NULL DEFAULT current_timestamp(),
-  `role` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user`

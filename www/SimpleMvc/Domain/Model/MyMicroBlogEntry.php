@@ -6,9 +6,9 @@ use SimpleMvc\Framework\BaseModel;
 
 class MyMicroBlogEntry extends BaseModel
 {
-    protected int $createdUser;
-    protected string $title;
-    protected ?string $text;
-    protected int $editedUser;
-    protected bool $highlight;
+    protected int $createdUser = 0;
+    protected string $title = '';
+    protected ?string $text = '';
+    protected int $editedUser = 0;
+    protected int $highlight = 0;
 }

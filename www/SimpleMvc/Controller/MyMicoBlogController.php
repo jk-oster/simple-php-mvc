@@ -63,11 +63,10 @@ class MyMicoBlogController extends BaseController
         if ($_REQUEST['title'] !== '') {
             $entry = MyMicroBlogEntry::objectFrom([
                 'createdUser' => getCurrentUser()->id,
-                'editedUser' => 0,
                 'title' => $_REQUEST['title'],
-                'highlight' => 0,
                 'text' => $_REQUEST['noticeText'],
             ]);
+            _debug($entry);
             $this->entryRepository->insert($entry);
         } else {
             echo "Please enter entry title";

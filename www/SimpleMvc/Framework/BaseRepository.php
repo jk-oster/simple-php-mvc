@@ -46,7 +46,7 @@ abstract class BaseRepository extends Database
 
     protected function getDomainClassName(): string
     {
-        return $this->getRootNamespace() . "\\Domain\\Domain\\" . $this->domainName;
+        return $this->getRootNamespace() . "\\Domain\\Model\\" . $this->domainName;
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class BaseRepository extends Database
     /**
      * Select entry by primary key
      * @param $pk
-     * @return array|false
+     * @return mixed
      */
     public function selectByPk($pk): mixed
     {

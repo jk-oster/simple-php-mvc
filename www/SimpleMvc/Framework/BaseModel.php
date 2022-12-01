@@ -63,7 +63,7 @@ abstract class BaseModel implements JsonSerializable
     /**
      * Maps array keys and values to Domain object properties
      * @param $array
-     * @return \BaseModel Domain object with properties set to array values
+     * @return mixed Domain object with properties set to array values
      */
     public static function objectFrom($array): mixed
     {

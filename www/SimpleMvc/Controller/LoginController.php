@@ -8,7 +8,7 @@ use SimpleMvc\Domain\UserRepository;
 
 class LoginController extends BaseController
 {
-    private UserRepository $userRepository;
+    private ?UserRepository $userRepository = null;
 
     protected function initialize(): void
     {

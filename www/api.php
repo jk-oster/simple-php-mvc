@@ -1,14 +1,13 @@
 <?php
 // Launch Application
 require_once('./SimpleMvc/Framework/Loader.php');
-Loader::launchSimpleMvc();
 
 // Register Routes
 $routes = [
     'entry' => [
         'controller' => 'SimpleMvc\\API\\EntryApiController',
         'endpoints' => [
-            '/ :GET', '/ :POST', '/ :PUT', '/:DELETE', '/toggle?id= :GET'
+            '/ :GET', '/ :POST', '/ :PUT', '/ :DELETE', '/toggle?id= :GET'
         ]
     ],
     'user' => [

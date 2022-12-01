@@ -20,8 +20,9 @@ class Loader
         // Global error variable
         $aErrors = [];
         // Load DB config
-        require_once("../../baseConfig.php");
-        require_once("../config.php");
+        require_once(__DIR__ . "/../../baseConfig.php");
+        require_once(__DIR__ . "/../config.php");
+        require_once(__DIR__ . "/GlobalFunctions.php");
 
         self::initSession();
 
@@ -30,7 +31,6 @@ class Loader
         self::loadFramework();
 
         // Load global functions
-        require_once("./GlobalFunctions.php");
     }
 
     // Autoload Class Files from SimpleMvc Framework
@@ -39,16 +39,18 @@ class Loader
             static function ($pClassName) {
                 if(str_contains($pClassName, 'SimpleMvc')){
                     // Change ClassPath to FilePath
-                    require_once('../../' . str_replace("\\", "/", $pClassName) . '.php');
+                    require_once(PROJECT_ROOT_PATH . "/" . str_replace("\\", "/", $pClassName) . '.php');
                 }
             }
         );
     }
 
-    public static load($filePaths = []) 
+    public static function load($filePaths = []) 
     {
         foreach($filePaths as $filePath) {
             require_once($filePath);
         }
     }
 }
+
+Loader::launchSimpleMvc();

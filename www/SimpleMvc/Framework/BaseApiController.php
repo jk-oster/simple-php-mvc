@@ -1,6 +1,6 @@
 <?php
 
-namespace MyMicroBlog\Framework;
+namespace SimpleMvc\Framework;
 
 abstract class BaseApiController
 {
@@ -12,6 +12,7 @@ abstract class BaseApiController
     public function __construct()
     {
         $this->reqMethod = $_SERVER['REQUEST_METHOD'];
+
         // https://localhost/api.php/{MODULE_NAME}/{METHOD_NAME}?search={SEARCH_VALUE}
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $this->uriSegments = explode('/', $uri);

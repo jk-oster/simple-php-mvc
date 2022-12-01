@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleMvc\Model;
+namespace SimpleMvc\Domain;
 
 use SimpleMvc\Framework\BaseRepository;
 

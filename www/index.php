@@ -1,8 +1,7 @@
 <?php
-use SimpleMvc\Loader;
 // Launch Application
 require_once('./SimpleMvc/Framework/Loader.php');
-Loader::launchSimpleMvc();
+
 ?>
 
 <!doctype html>

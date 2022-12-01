@@ -1,5 +1,32 @@
 <?php
 
+use SimpleMvc\Domain\Model\User;
+use SimpleMvc\Framework\DataBase;
+
+$currentUser = [];
+
+// Global function to access users
+function getUserById($id)
+{
+    return User::objectFrom((new Database())->getRow("SELECT * FROM user WHERE id= '$id';"));
+}
+
+// Global function isLoggedIn
+function isLoggedIn(): bool
+{
+    return isset($_SESSION['user'], $_SESSION['role']);
+}
+
+// Global function getCurrentUser
+function getCurrentUser(): User|null
+{
+    global $currentUser;
+    if (!$currentUser) {
+        $currentUser = getUserById($_SESSION['id']) ?: null;
+    }
+    return $currentUser;
+}
+
 /**
  * Simple PHP Templating function
  *

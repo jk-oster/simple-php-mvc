@@ -1,0 +1,31 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "SimpleMvc\\": "SimpleMvc/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit tests",
+    "phpstan": "phpstan analyse index.php config.php globals.php src SimpleMvc --level 2"
+  },
+  "require": {
+    "vlucas/phpdotenv": "^5.5",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "ramsey/composer-repl-lib": "^1.2",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^10.2"
+  },
+  "config": {
+  },
+  "extra": {
+    "ramsey/composer-repl": {
+      "includes": [
+        "repl-boot.php"
+      ]
+    }
+  }
+}
